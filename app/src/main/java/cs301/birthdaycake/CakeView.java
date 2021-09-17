@@ -16,6 +16,7 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint rainbowPaint = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -60,6 +61,8 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        rainbowPaint.setColor(0xFFFF0000);
+        rainbowPaint.setStyle(Paint.Style.FILL);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -127,9 +130,34 @@ public class CakeView extends SurfaceView {
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
         //Now two candles, spaced equidistant from each other and the cake's edges
-        if (myCakeModel.hasCandles) {
-            drawCandle(canvas, cakeLeft + cakeWidth / 3 - candleWidth / 2, cakeTop);
-            drawCandle(canvas, cakeLeft + (2 * cakeWidth) / 3 - candleWidth / 2, cakeTop);
+        if (myCakeModel.hasCandles && (myCakeModel.numCandles > 0)) {
+            for (int i = 1; i <= myCakeModel.numCandles; i++) {
+                drawCandle(canvas, cakeLeft + (i * cakeWidth) / (myCakeModel.numCandles + 1)
+                        - candleWidth / 2, cakeTop);
+            }
+        }
+
+        if (myCakeModel.hasFrosting) {
+
+            // makes a janky rainbow
+            rainbowPaint.setColor(0xFFFF0000);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5, cakeLeft  + cakeWidth + 5,
+                    bottom, rainbowPaint);
+            rainbowPaint.setColor(0xFFFF7F00);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5,
+                    (5 * (cakeLeft  + cakeWidth + 5) / 6), bottom, rainbowPaint);
+            rainbowPaint.setColor(0xFFFFFF00);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5,
+                    4 * (cakeLeft  + cakeWidth + 5) / 6, bottom, rainbowPaint);
+            rainbowPaint.setColor(0xFF00FF00);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5,
+                    3 * (cakeLeft  + cakeWidth + 5) / 6, bottom, rainbowPaint);
+            rainbowPaint.setColor(0xFF0000FF);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5,
+                    2 * (cakeLeft  + cakeWidth + 5) / 6, bottom, rainbowPaint);
+            rainbowPaint.setColor(0xFF7F00FF);
+            canvas.drawRect(cakeLeft - 5, cakeTop - 5,
+                    (cakeLeft  + cakeWidth + 5) / 6, bottom, rainbowPaint);
         }
 
     }//onDraw

@@ -9,7 +9,7 @@ public class CakeModel {
     public CakeModel() {
         candlesLit = true;
         numCandles = 2;
-        hasFrosting = true;
+        hasFrosting = false;
         hasCandles = true;
     }
 }
